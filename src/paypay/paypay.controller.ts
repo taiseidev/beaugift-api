@@ -7,15 +7,16 @@ export class PaypayController {
   constructor(private readonly paypayService: PaypayService) {}
 
   @Post('createQr')
-  createQr(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paypayService.createQr(createPaymentDto.amount);
+  createQr(@Body() createQrDto: CreatePaymentDto) {
+    return this.paypayService.createQr(createQrDto.amount);
   }
 
   @Post('oneTapCall')
-  oneTapCall(
-    @Body() createPaymentDto: CreatePaymentDto,
-    @Headers('user-agent') userAgent: string,
+  async oneTapCall(
+    @Body() createQrDto: CreatePaymentDto,
+    @Headers('User-Agent') userAgent: string,
   ) {
-    return this.paypayService.oneTapCall(createPaymentDto.amount, userAgent);
+    console.log(createQrDto.amount);
+    return await this.paypayService.oneTapCall(createQrDto.amount, userAgent);
   }
 }
