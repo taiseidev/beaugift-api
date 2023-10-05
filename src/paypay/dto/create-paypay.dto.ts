@@ -1,1 +1,1 @@
-export class CreatePaypayDto {}
+// export class CreatePaypayDto {}
