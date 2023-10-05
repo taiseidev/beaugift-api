@@ -24,7 +24,7 @@ export class PaypayService {
   redirectType = 'APP_DEEP_LINK';
   redirectUrl = 'https://flutter.dev/';
 
-  async oneTapCall(amount: number) {
+  async oneTapCall(amount: number, userAgent: string) {
     const paymentId = uuidV4;
 
     const payload = {
@@ -38,8 +38,7 @@ export class PaypayService {
       isAuthorization: false,
       redirectUrl: this.redirectUrl,
       redirectType: this.redirectType,
-      userAgent:
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1',
+      userAgent: userAgent,
     };
 
     QRCodeCreate(payload, (response) => {

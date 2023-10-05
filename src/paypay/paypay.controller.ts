@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Headers } from '@nestjs/common';
 import { PaypayService } from './paypay.service';
 import { CreatePaymentDto } from './dto/create-payment-dto';
 
@@ -12,7 +12,10 @@ export class PaypayController {
   }
 
   @Post('oneTapCall')
-  oneTapCall(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paypayService.oneTapCall(createPaymentDto.amount);
+  oneTapCall(
+    @Body() createPaymentDto: CreatePaymentDto,
+    @Headers('user-agent') userAgent: string,
+  ) {
+    return this.paypayService.oneTapCall(createPaymentDto.amount, userAgent);
   }
 }
