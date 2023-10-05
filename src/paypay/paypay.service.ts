@@ -74,17 +74,17 @@ export class PaypayService {
     };
 
     try {
-      const qrCodeResponse = await createQRCodeAsync(payload);
+      const qrCodeResponse: ApiResponse = await createQRCodeAsync(payload);
       console.log(qrCodeResponse);
 
-      if (qrCodeResponse.resultInfo.code === 'SUCCESS') {
+      if (qrCodeResponse.BODY.resultInfo.code === 'SUCCESS') {
         const { codeId, url, expiryDate, requestedAt, amount, deeplink } =
-          qrCodeResponse.data;
+          qrCodeResponse.BODY.data;
         return { codeId, url, expiryDate, requestedAt, amount, deeplink };
       } else {
         this.handleError(
-          qrCodeResponse.resultInfo.code,
-          qrCodeResponse.resultInfo.message,
+          qrCodeResponse.BODY.resultInfo.code,
+          qrCodeResponse.BODY.resultInfo.message,
         );
       }
     } catch (error) {
@@ -126,9 +126,36 @@ async function createQRCodeAsync(payload: any): Promise<any> {
       if (response) {
         resolve(response);
       } else {
-        console.log('ここまでytなn');
         reject(new Error('Failed to get a valid response from PayPay'));
       }
     });
   });
+}
+
+interface ApiResponse {
+  STATUS: number;
+  BODY: {
+    resultInfo: {
+      code: string;
+      message: string;
+      codeId: string;
+    };
+    data: {
+      codeId: string;
+      url: string;
+      expiryDate: number;
+      merchantPaymentId: string;
+      amount: {
+        amount: number;
+        currency: string;
+      };
+      orderDescription: string;
+      codeType: string;
+      requestedAt: number;
+      redirectUrl: string;
+      redirectType: string;
+      isAuthorization: boolean;
+      deeplink: string;
+    };
+  };
 }
