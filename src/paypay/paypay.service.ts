@@ -108,9 +108,6 @@ export class PaypayService {
 
     try {
       QRCodeCreate(payload, (response) => {
-        // if (response && response.errorInfo) {
-        //   this.handleError(response.errorInfo.code, response.errorInfo.message);
-        // }
         console.log(response);
       });
     } catch (error) {
